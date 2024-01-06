@@ -20,11 +20,13 @@
         <td style="width:100%; margin:auto"></td>
     </table>
 <div class="layout" id="layout">
+    
 </div>
+<div id="failBox">Failed!</div>
   </div>
 
-  <div><button id="startGame_button">start game</button></div>
-  <div><button id="endGame_button">End Game</button></div>
+  <div style="text-align:center; margin-top:100px;"><button id="startGame_button">start game</button></div>
+  <div style="text-align:center; margin-top:20px" id="glowText_white">Click once - then "Enter" to restart.</div>
   </body>
 
 <script>
@@ -32,18 +34,37 @@ let isGameActive = false;
 let keydownHandler = null; // To keep a reference to the event listener function
 let keysArray = [];
 let divArray = [];
-const randomKeys = generateRandomKeysArray();
+let randomKeys = [];
 const parentDiv = document.getElementById('layout');
 
 console.log(randomKeys);
 
 function startGame() {
+    if(isGameActive){
+        return;
+    }
   isGameActive = true;
+  //Clean variables
+  keysArray = [];
+  divArray = [];
+  randomKeys = [];
+
+  randomKeys = generateRandomKeysArray();
+  
+  var numberContainer = document.getElementById('numberContainer');
+
+    // Get all children with a certain class
+    var childrenWithClass = numberContainer.querySelectorAll('.deleteableDiv');
+
+    // Remove each child
+    childrenWithClass.forEach(function(child) {
+    child.parentNode.removeChild(child);
+    });
+
   console.log("Game started.");
   keydownHandler = function(event) {
     checkKey(event.key);
     if (event.key === 'Enter') {
-      alert('Enter key pressed!');
     }
   };
   document.addEventListener('keydown', keydownHandler);
@@ -53,14 +74,13 @@ function startGame() {
     console.log(`Item at index ${index}: ${item}`);
     parentDiv.appendChild(newDiv);
     newDiv.id = "numberBox";
+    newDiv.className = 'deleteableDiv';
     newDiv.innerHTML = item;
     divArray.push(newDiv);
 
   
 });
 }
-
-
 
 function checkKey(key){
     key = key.toUpperCase();
@@ -73,6 +93,9 @@ function checkKey(key){
     }else{
         divArray[0].id = 'numberContainerFail';
         divArray.shift();
+        document.getElementById('failBox').style = 'visibility: visible;';
+        keysArray = [];
+        newDiv = [];
         console.log("Incorrect - Game ended");
         endGame();
     }
@@ -101,5 +124,4 @@ for (let i = 0; i < 15; i++) {
 }
 
 document.getElementById('startGame_button').addEventListener('click', startGame);
-document.getElementById('endGame_button').addEventListener('click', endGame);
 </script>
