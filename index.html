@@ -90,6 +90,9 @@ function checkKey(key){
         keysArray.shift();
         divArray[0].id = 'numberContainerCorrect';
         divArray.shift();
+        if(keysArray.length == 0){
+            endGame()
+        }
     }else{
         divArray[0].id = 'numberContainerFail';
         divArray.shift();
@@ -103,6 +106,10 @@ function checkKey(key){
 
 function endGame() {
   isGameActive = false;
+  //clean vars
+  keysArray = [];
+  divArray = [];
+  randomKeys = [];
   console.log("Game ended.");
   if (keydownHandler !== null) {
     document.removeEventListener('keydown', keydownHandler);
