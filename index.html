@@ -1,1 +1,105 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoPixel KFR Minigame</title>
+    <link rel="stylesheet" type="text/css" href="minigame.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1 id="title">NoPixel 4.0 KFR Minigame</h1>
+    <h2 id="subtitle">Made by DylanBBK</h2>
+<div id="numberContainer">
+    <table style="padding-bottom:10px; text-wrap: nowrap;">
+        <td id="glowText_green">Alphabet</td>
+        <td id="glowText_white">Tap the letters in order</td>
+        
+        <td style="width:100%; margin:auto"></td>
+    </table>
+<div class="layout" id="layout">
+</div>
+  </div>
+
+  <div><button id="startGame_button">start game</button></div>
+  <div><button id="endGame_button">End Game</button></div>
+  </body>
+
+<script>
+let isGameActive = false;
+let keydownHandler = null; // To keep a reference to the event listener function
+let keysArray = [];
+let divArray = [];
+const randomKeys = generateRandomKeysArray();
+const parentDiv = document.getElementById('layout');
+
+console.log(randomKeys);
+
+function startGame() {
+  isGameActive = true;
+  console.log("Game started.");
+  keydownHandler = function(event) {
+    checkKey(event.key);
+    if (event.key === 'Enter') {
+      alert('Enter key pressed!');
+    }
+  };
+  document.addEventListener('keydown', keydownHandler);
+
+  keysArray.forEach(function(item, index) {
+    const newDiv = document.createElement('div');
+    console.log(`Item at index ${index}: ${item}`);
+    parentDiv.appendChild(newDiv);
+    newDiv.id = "numberBox";
+    newDiv.innerHTML = item;
+    divArray.push(newDiv);
+
+  
+});
+}
+
+
+
+function checkKey(key){
+    key = key.toUpperCase();
+    console.log("Key Wanted: " + keysArray[0] + " | Key Pressed: " + key);
+    if(keysArray[0] == key){
+        console.log("Correct");
+        keysArray.shift();
+        divArray[0].id = 'numberContainerCorrect';
+        divArray.shift();
+    }else{
+        divArray[0].id = 'numberContainerFail';
+        divArray.shift();
+        console.log("Incorrect - Game ended");
+        endGame();
+    }
+}
+
+function endGame() {
+  isGameActive = false;
+  console.log("Game ended.");
+  if (keydownHandler !== null) {
+    document.removeEventListener('keydown', keydownHandler);
+    keydownHandler = null; // Reset the reference
+  }
+}
+
+function generateRandomKey() {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    return characters.charAt(randomIndex);
+}
+
+function generateRandomKeysArray() {
+for (let i = 0; i < 15; i++) {
+    keysArray.push(generateRandomKey());
+}
+    return keysArray;
+}
+
+document.getElementById('startGame_button').addEventListener('click', startGame);
+document.getElementById('endGame_button').addEventListener('click', endGame);
+</script>
