@@ -121,10 +121,33 @@ border: 1px solid grey;
     height: 50px;
     padding-left:50px;
     padding-right:50px;
-    background: rgb(0,255,234);
-    background: radial-gradient(circle, rgba(0,255,234,0.4906337535014006) 0%, rgba(0,255,234,0.14889705882352944) 100%);
+    background: rgb(189, 189, 189);
+    background: radial-gradient(circle, rgba(185, 185, 185, 0.548) 0%, rgba(231, 231, 231, 0.149) 100%);
     border: 1px solid #00ffea;
     border-radius: 5px;
     color: rgb(240, 240, 240);
     margin: 5px;
+}
+progress {
+    width: 100%;
+    height: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #eee;
+    border-radius: 5px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #ff5e00;
+    border-radius: 5px;
+    transition: width 1s ease-in-out;
+}
+
+progress::-moz-progress-bar {
+    background-color: #ff5e00;
+    border-radius: 5px;
+    transition: width 1s ease-in-out;
 }
