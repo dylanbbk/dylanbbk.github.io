@@ -23,6 +23,9 @@
     
 </div>
 <div id="failBox">Failed!</div>
+<div class="w3-light-grey" style="width:100%">
+<progress id="timer" style='width:100%' value="100" max="100"></progress>  
+</div>
   </div>
 
   <div style="text-align:center; margin-top:100px;"><button id="startGame_button">start game</button></div>
@@ -48,7 +51,7 @@ function startGame() {
   keysArray = [];
   divArray = [];
   randomKeys = [];
-
+  document.getElementById('failBox').style = 'visibility: collapsed;';
   randomKeys = generateRandomKeysArray();
   
   var numberContainer = document.getElementById('numberContainer');
@@ -60,7 +63,7 @@ function startGame() {
     childrenWithClass.forEach(function(child) {
     child.parentNode.removeChild(child);
     });
-
+    startTimer();
   console.log("Game started.");
   keydownHandler = function(event) {
     checkKey(event.key);
@@ -105,7 +108,7 @@ function checkKey(key){
 }
 
 function endGame() {
-  isGameActive = false;
+    isGameActive = false;
   //clean vars
   keysArray = [];
   divArray = [];
@@ -116,7 +119,19 @@ function endGame() {
     keydownHandler = null; // Reset the reference
   }
 }
-
+function failCondition(){
+    isGameActive = false;
+  //clean vars
+  keysArray = [];
+  divArray = [];
+  randomKeys = [];
+  document.getElementById('failBox').style = 'visibility: visible;';
+  console.log("Game ended.");
+  if (keydownHandler !== null) {
+    document.removeEventListener('keydown', keydownHandler);
+    keydownHandler = null; // Reset the reference
+  }
+}
 function generateRandomKey() {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const randomIndex = Math.floor(Math.random() * characters.length);
@@ -129,6 +144,23 @@ for (let i = 0; i < 15; i++) {
 }
     return keysArray;
 }
+let timeLeft = 10; // in seconds
+    const progressBar = document.getElementById('timer');
 
+    function updateTimer() {
+        progressBar.value = (timeLeft / 10) * 100; // Adjust max value if you change the timeLeft
+    }
+
+    function startTimer() {
+        const timerInterval = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateTimer();
+            } else {
+                clearInterval(timerInterval);
+                failCondition(); // You can do something else here when the timer hits 0
+            }
+        }, 1000); // Update every 1 second
+    }
 document.getElementById('startGame_button').addEventListener('click', startGame);
 </script>
