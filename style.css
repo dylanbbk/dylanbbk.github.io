@@ -1,0 +1,9 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: rgb(22,24,25);
+    background: linear-gradient(0deg, rgba(22,24,25,1) 0%, rgba(46,51,60,1) 100%);
+    color: #cecece;
+    margin: 0;
+    height: 100vh; /* Ensure the body takes full viewport height */
+
+}
